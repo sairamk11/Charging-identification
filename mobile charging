@@ -1,0 +1,45 @@
+# prompt: need to identify the mobile is charging or not
+
+def is_charging(battery_level_history):
+  """
+  Identifies if the mobile is likely charging based on battery level history.
+
+  Args:
+    battery_level_history: A dictionary where keys are timestamps (e.g., hours)
+                          and values are corresponding battery levels (%).
+
+  Returns:
+    True if the mobile is likely charging, False otherwise.
+  """
+
+  if not battery_level_history:
+    return False  # No history to analyze
+
+  timestamps = sorted(battery_level_history.keys())
+  for i in range(len(timestamps) - 1):
+    current_timestamp = timestamps[i]
+    next_timestamp = timestamps[i + 1]
+    current_level = battery_level_history[current_timestamp]
+    next_level = battery_level_history[next_timestamp]
+
+    if next_level > current_level:  # Battery level increased
+      return True
+
+  return False  # No significant increase in battery level
+
+
+# Example Usage:
+battery_levels = {
+    9: 86.3,
+    10: 78.4,
+    11: 70.5,
+    12: 60.6,
+    13: 50.7,
+    14: 60.8,
+    15: 52.9,
+}
+
+if is_charging(battery_levels):
+  print("Mobile is likely charging.")
+else:
+  print("Mobile is likely not charging.")
